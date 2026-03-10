@@ -1,0 +1,33 @@
+title: Save Democracy Indivisible North Inland
+description: >-
+  Peaceful civic action for democracy, rule of law, civil rights, and freedom.
+baseurl: ""
+url: "https://sdini.org"
+
+markdown: kramdown
+theme: null
+
+collections:
+  events:
+    output: true
+    permalink: /events/:title/
+  gallery:
+    output: false
+
+defaults:
+  - scope:
+      path: ""
+      type: "events"
+    values:
+      layout: "event"
+  - scope:
+      path: ""
+      values:
+        layout: "page"
+
+plugins: []
+
+exclude:
+  - README.md
+  - node_modules
+  - vendor
