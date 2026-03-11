@@ -8,4 +8,5 @@ hero:
   primary_button_link: /events/
   secondary_button_text: Join Us
   secondary_button_link: /join/
+  background_overlay: rgba(13,35,64,.72)
 ---
