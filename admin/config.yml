@@ -2,17 +2,17 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+publish_mode: editorial_workflow
 
 site_url: "https://sdini.org"
 display_url: "https://sdini.org"
 
-publish_mode: editorial_workflow
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
 
 collections:
   - name: "pages"
-    label: "Pages"
+    label: "Site Pages"
     files:
       - label: "Home"
         name: "home"
@@ -20,22 +20,187 @@ collections:
         fields:
           - { label: "Layout", name: "layout", widget: "hidden", default: "home" }
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Hero Heading", name: "hero_heading", widget: "string" }
-          - { label: "Hero Subheading", name: "hero_subheading", widget: "text" }
-          - { label: "Primary Button Text", name: "primary_button_text", widget: "string", required: false }
-          - { label: "Primary Button Link", name: "primary_button_link", widget: "string", required: false }
-          - { label: "Secondary Button Text", name: "secondary_button_text", widget: "string", required: false }
-          - { label: "Secondary Button Link", name: "secondary_button_link", widget: "string", required: false }
-          - { label: "Body", name: "body", widget: "markdown" }
+
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Subheading", name: "subheading", widget: "text", required: false }
+              - { label: "Background Image", name: "background_image", widget: "image", required: false }
+              - { label: "Background Overlay", name: "background_overlay", widget: "string", required: false, hint: "Example: rgba(13,35,64,.72)" }
+              - { label: "Primary Button Text", name: "primary_button_text", widget: "string", required: false }
+              - { label: "Primary Button Link", name: "primary_button_link", widget: "string", required: false }
+              - { label: "Secondary Button Text", name: "secondary_button_text", widget: "string", required: false }
+              - { label: "Secondary Button Link", name: "secondary_button_link", widget: "string", required: false }
+
+          - label: "Page Blocks"
+            name: "sections"
+            widget: "list"
+            required: false
+            types:
+              - label: "Text Block"
+                name: "text"
+                widget: "object"
+                fields:
+                  - { label: "Block Title", name: "title", widget: "string", required: false }
+                  - { label: "Content", name: "content", widget: "markdown" }
+
+              - label: "Callout Block"
+                name: "callout"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Text", name: "text", widget: "text" }
+
+              - label: "Image Block"
+                name: "image"
+                widget: "object"
+                fields:
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Alt Text", name: "alt", widget: "string", required: false }
+                  - { label: "Caption", name: "caption", widget: "text", required: false }
+
+              - label: "Two Column Block"
+                name: "two_column"
+                widget: "object"
+                fields:
+                  - { label: "Left Title", name: "left_title", widget: "string", required: false }
+                  - { label: "Left Content", name: "left_content", widget: "markdown" }
+                  - { label: "Right Title", name: "right_title", widget: "string", required: false }
+                  - { label: "Right Content", name: "right_content", widget: "markdown" }
+
+              - label: "Buttons Block"
+                name: "buttons"
+                widget: "object"
+                fields:
+                  - label: "Buttons"
+                    name: "items"
+                    widget: "list"
+                    fields:
+                      - { label: "Button Text", name: "text", widget: "string" }
+                      - { label: "Button Link", name: "link", widget: "string" }
+                      - { label: "Secondary Style", name: "secondary", widget: "boolean", default: false, required: false }
+
+              - label: "YouTube Block"
+                name: "youtube"
+                widget: "object"
+                fields:
+                  - { label: "YouTube Embed URL", name: "embed_url", widget: "string", hint: "Example: https://www.youtube.com/embed/VIDEO_ID" }
+
+              - label: "Google Map Block"
+                name: "map"
+                widget: "object"
+                fields:
+                  - { label: "Section Title", name: "title", widget: "string", required: false }
+                  - { label: "Google Maps Embed Iframe", name: "embed", widget: "text" }
+
+          - { label: "Fallback Page Content", name: "body", widget: "markdown", required: false }
 
       - label: "About"
         name: "about"
         file: "about.md"
-        fields:
+        fields: &standard_page_fields
           - { label: "Layout", name: "layout", widget: "hidden", default: "page" }
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Permalink", name: "permalink", widget: "hidden", default: "/about/" }
-          - { label: "Body", name: "body", widget: "markdown" }
+          - { label: "Permalink", name: "permalink", widget: "string" }
+
+          - label: "Page Design"
+            name: "design"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "Background Color", name: "bg_color", widget: "string", required: false, hint: "Example: #f6f8fb" }
+              - { label: "Background Image", name: "bg_image", widget: "image", required: false }
+              - { label: "Page Intro", name: "intro", widget: "text", required: false }
+
+          - label: "Page Blocks"
+            name: "sections"
+            widget: "list"
+            required: false
+            types:
+              - label: "Text Block"
+                name: "text"
+                widget: "object"
+                fields:
+                  - { label: "Block Title", name: "title", widget: "string", required: false }
+                  - { label: "Content", name: "content", widget: "markdown" }
+
+              - label: "Callout Block"
+                name: "callout"
+                widget: "object"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Text", name: "text", widget: "text" }
+
+              - label: "Image Block"
+                name: "image"
+                widget: "object"
+                fields:
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Alt Text", name: "alt", widget: "string", required: false }
+                  - { label: "Caption", name: "caption", widget: "text", required: false }
+
+              - label: "Two Column Block"
+                name: "two_column"
+                widget: "object"
+                fields:
+                  - { label: "Left Title", name: "left_title", widget: "string", required: false }
+                  - { label: "Left Content", name: "left_content", widget: "markdown" }
+                  - { label: "Right Title", name: "right_title", widget: "string", required: false }
+                  - { label: "Right Content", name: "right_content", widget: "markdown" }
+
+              - label: "Buttons Block"
+                name: "buttons"
+                widget: "object"
+                fields:
+                  - label: "Buttons"
+                    name: "items"
+                    widget: "list"
+                    fields:
+                      - { label: "Button Text", name: "text", widget: "string" }
+                      - { label: "Button Link", name: "link", widget: "string" }
+                      - { label: "Secondary Style", name: "secondary", widget: "boolean", default: false, required: false }
+
+              - label: "YouTube Block"
+                name: "youtube"
+                widget: "object"
+                fields:
+                  - { label: "YouTube Embed URL", name: "embed_url", widget: "string" }
+
+              - label: "Google Map Block"
+                name: "map"
+                widget: "object"
+                fields:
+                  - { label: "Section Title", name: "title", widget: "string", required: false }
+                  - { label: "Google Maps Embed Iframe", name: "embed", widget: "text" }
+
+          - { label: "Fallback Page Content", name: "body", widget: "markdown", required: false }
+
+      - label: "Resources"
+        name: "resources"
+        file: "resources.md"
+        fields: *standard_page_fields
+
+      - label: "Join Us"
+        name: "join"
+        file: "join.md"
+        fields: *standard_page_fields
+
+      - label: "Education"
+        name: "education"
+        file: "education.md"
+        fields: *standard_page_fields
+
+      - label: "Contact Page"
+        name: "contact"
+        file: "contact.md"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "contact" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Permalink", name: "permalink", widget: "hidden", default: "/contact/" }
+          - { label: "Map Embed Iframe", name: "map_embed", widget: "text", required: false }
+          - { label: "Body", name: "body", widget: "markdown", required: false }
 
       - label: "Gallery Page"
         name: "gallery_page"
@@ -45,41 +210,6 @@ collections:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Permalink", name: "permalink", widget: "hidden", default: "/gallery/" }
           - { label: "Intro Text", name: "intro", widget: "text", required: false }
-
-      - label: "Resources"
-        name: "resources"
-        file: "resources.md"
-        fields:
-          - { label: "Layout", name: "layout", widget: "hidden", default: "page" }
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Permalink", name: "permalink", widget: "hidden", default: "/resources/" }
-          - { label: "Body", name: "body", widget: "markdown" }
-
-      - label: "Join Us"
-        name: "join"
-        file: "join.md"
-        fields:
-          - { label: "Layout", name: "layout", widget: "hidden", default: "page" }
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Permalink", name: "permalink", widget: "hidden", default: "/join/" }
-          - { label: "Body", name: "body", widget: "markdown" }
-
-      - label: "Education"
-        name: "education"
-        file: "education.md"
-        fields:
-          - { label: "Layout", name: "layout", widget: "hidden", default: "page" }
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Permalink", name: "permalink", widget: "hidden", default: "/education/" }
-          - { label: "Body", name: "body", widget: "markdown" }
-          
-      - label: "Contact Page"
-        name: "contact"
-        file: "contact.md"
-        fields:
-          - { label: "Layout", name: "layout", widget: "hidden", default: "contact" }
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Permalink", name: "permalink", widget: "hidden", default: "/contact/" }
 
   - name: "events"
     label: "Events"
@@ -95,6 +225,7 @@ collections:
       - { label: "Location", name: "location", widget: "string" }
       - { label: "Address", name: "address", widget: "string", required: false }
       - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "YouTube Embed URL", name: "youtube_embed", widget: "string", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "gallery"
