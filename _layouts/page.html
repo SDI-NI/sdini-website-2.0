@@ -1,7 +1,118 @@
 ---
 layout: default
 ---
-<section class="page-section container">
-  <h1>{{ page.title }}</h1>
-  {{ content }}
+
+<section
+  class="page-section"
+  {% if page.design.bg_color or page.design.bg_image %}
+    style="
+      {% if page.design.bg_color %}background-color: {{ page.design.bg_color }};{% endif %}
+      {% if page.design.bg_image %}background-image: linear-gradient(rgba(255,255,255,.88), rgba(255,255,255,.88)), url('{{ page.design.bg_image }}'); background-size: cover; background-position: center;{% endif %}
+    "
+  {% endif %}
+>
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">{{ page.title }}</h1>
+      {% if page.design.intro %}
+        <p class="page-intro">{{ page.design.intro }}</p>
+      {% endif %}
+    </header>
+
+    {% if page.sections and page.sections.size > 0 %}
+      <div class="page-builder">
+        {% for section in page.sections %}
+          {% case section.type %}
+
+            {% when "text" %}
+              <section class="content-block content-block-text">
+                {% if section.title %}
+                  <h2>{{ section.title }}</h2>
+                {% endif %}
+                <div class="rich-text">
+                  {{ section.content | markdownify }}
+                </div>
+              </section>
+
+            {% when "callout" %}
+              <section class="content-block callout-block">
+                <h2>{{ section.title }}</h2>
+                <p>{{ section.text }}</p>
+              </section>
+
+            {% when "image" %}
+              <figure class="content-block image-block">
+                <img src="{{ section.image }}" alt="{{ section.alt | escape }}">
+                {% if section.caption %}
+                  <figcaption>{{ section.caption }}</figcaption>
+                {% endif %}
+              </figure>
+
+            {% when "two_column" %}
+              <section class="content-block two-column-block">
+                <div class="two-column-grid">
+                  <div>
+                    {% if section.left_title %}
+                      <h2>{{ section.left_title }}</h2>
+                    {% endif %}
+                    <div class="rich-text">
+                      {{ section.left_content | markdownify }}
+                    </div>
+                  </div>
+                  <div>
+                    {% if section.right_title %}
+                      <h2>{{ section.right_title }}</h2>
+                    {% endif %}
+                    <div class="rich-text">
+                      {{ section.right_content | markdownify }}
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            {% when "buttons" %}
+              <section class="content-block button-row-block">
+                <div class="button-row">
+                  {% for item in section.items %}
+                    <a class="button {% if item.secondary %}button-secondary{% endif %}" href="{{ item.link }}">
+                      {{ item.text }}
+                    </a>
+                  {% endfor %}
+                </div>
+              </section>
+
+            {% when "youtube" %}
+              <section class="content-block embed-block">
+                <div class="responsive-embed">
+                  <iframe
+                    src="{{ section.embed_url }}"
+                    title="YouTube video"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                  </iframe>
+                </div>
+              </section>
+
+            {% when "map" %}
+              <section class="content-block embed-block">
+                {% if section.title %}
+                  <h2>{{ section.title }}</h2>
+                {% endif %}
+                <div class="responsive-embed map-embed">
+                  {{ section.embed }}
+                </div>
+              </section>
+
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if content and content != "" %}
+      <div class="page-content rich-text">
+        {{ content }}
+      </div>
+    {% endif %}
+  </div>
 </section>
