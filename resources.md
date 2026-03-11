@@ -2,6 +2,8 @@
 layout: page
 title: Resources
 permalink: /resources/
+design:
+  bg_image: /images/uploads/sdinilogo-1.jpeg
 ---
 # Resources
 
