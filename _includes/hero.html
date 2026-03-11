@@ -1,14 +1,30 @@
-<section class="hero">
+{% assign hero_bg = page.hero.background_image | default: '/assets/img/hero.jpg' %}
+{% assign hero_overlay = page.hero.background_overlay | default: 'rgba(13,35,64,.72)' %}
+
+<section
+  class="hero"
+  style="background:
+    linear-gradient({{ hero_overlay }}, {{ hero_overlay }}),
+    url('{{ hero_bg }}') center/cover no-repeat;"
+>
   <div class="container hero-inner">
-    <h1>{{ page.hero_heading }}</h1>
-    <p>{{ page.hero_subheading }}</p>
-    <div class="hero-actions">
-      {% if page.primary_button_text and page.primary_button_link %}
-        <a class="button" href="{{ page.primary_button_link }}">{{ page.primary_button_text }}</a>
-      {% endif %}
-      {% if page.secondary_button_text and page.secondary_button_link %}
-        <a class="button button-secondary" href="{{ page.secondary_button_link }}">{{ page.secondary_button_text }}</a>
-      {% endif %}
-    </div>
+    {% if page.hero.heading %}
+      <h1>{{ page.hero.heading }}</h1>
+    {% endif %}
+
+    {% if page.hero.subheading %}
+      <p>{{ page.hero.subheading }}</p>
+    {% endif %}
+
+    {% if page.hero.primary_button_text or page.hero.secondary_button_text %}
+      <div class="hero-actions">
+        {% if page.hero.primary_button_text and page.hero.primary_button_link %}
+          <a class="button" href="{{ page.hero.primary_button_link }}">{{ page.hero.primary_button_text }}</a>
+        {% endif %}
+        {% if page.hero.secondary_button_text and page.hero.secondary_button_link %}
+          <a class="button button-secondary" href="{{ page.hero.secondary_button_link }}">{{ page.hero.secondary_button_text }}</a>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
 </section>
